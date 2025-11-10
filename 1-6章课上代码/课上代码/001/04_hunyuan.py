@@ -1,11 +1,13 @@
 #sk-ISnpn1p7Q8RkOf1pHWKZb8Z6jjMZ0yXTwnsnIONRUOFrPhxO
 import os
 from openai import OpenAI
+from dotenv import load_dotenv
 
+load_dotenv("../assets/openai.env")  # 注意../回退一个路径
 # 构造 client
 client = OpenAI(
-    # api_key=os.environ.get("HUNYUAN_API_KEY"), # 混元 APIKey
-    api_key="sk-ISnpn1p7Q8RkOf1pHWKZb8Z6jjMZ0yXTwnsnIONRUOFrPhxO",
+    api_key=os.environ.get("HUNYUAN_API_KEY"), # 混元 APIKey
+    # api_key="sk-ISnpn1p7Q8RkOf1pHWKZb8Z6jjMZ0yXTwnsnIONRUOFrPhxO",
 
     base_url="https://api.hunyuan.cloud.tencent.com/v1", # 混元 endpoint
 )
@@ -17,7 +19,7 @@ response = client.chat.completions.create(
     messages=[
         {
             "role": "user",
-            "content": "你好",
+            "content": "hello",
         },
     ],
     extra_body={

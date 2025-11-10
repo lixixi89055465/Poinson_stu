@@ -1,7 +1,7 @@
 # Please install OpenAI SDK first: `pip3 install openai`
 
 from openai import OpenAI
-client = OpenAI(api_key="这里同学填写自己的apikey",
+client = OpenAI(api_key="sk-eaf4a6262d484b40be826c39ee429767",
                 base_url="https://api.deepseek.com")
 # client.chat：这是 OpenAI Python SDK 里的一个对象或方法，
 # 借助它可以向聊天模型发送请求并接收响应。
