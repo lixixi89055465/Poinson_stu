@@ -42,7 +42,8 @@ print("铭刻:义父追魂戟,把离手越进义父离你越远>---红字增幅+
                                     # print(retriever.retrieve("en"))
                                     # print(retriever.retrieve("zh"))
 
-from langchain.retrievers.multi_query import MultiQueryRetriever
+# from langchain.retrievers.multi_query import MultiQueryRetriever
+from langchain_classic.retrievers.multi_query import MultiQueryRetriever
 
 
 import os
