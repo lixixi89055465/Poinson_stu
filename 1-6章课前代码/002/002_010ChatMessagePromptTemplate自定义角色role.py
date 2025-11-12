@@ -34,7 +34,7 @@ msg = template1.format()
 print(msg)
 
 # temperature=0.8 取值0-1之间的浮点数,0最精准,1发挥空间更大
-load_dotenv("../assets/openai.env")
+load_dotenv("../assets/.env")
 llm = ChatOpenAI(model=os.getenv("MODEL_NAME"), temperature=0.8)
 res = llm.invoke(msg)
 print(res.content)
