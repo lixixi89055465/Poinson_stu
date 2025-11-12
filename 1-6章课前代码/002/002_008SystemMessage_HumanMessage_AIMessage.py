@@ -19,8 +19,11 @@ from langchain_openai import ChatOpenAI
 from sqlalchemy.sql.functions import count
 
 #附加信息不起作用可能是模型不支持或者langchain版本问题
-load_dotenv("../assets/openai.env")
-sy = SystemMessage(content="你是一个普通的上班族", additional_kwargs={"你的名字是": "吉恶吉懂事"})
+# load_dotenv("../assets/openai.env")
+load_dotenv("../assets/.env")
+print('2'*100)
+print(os.getenv("MODEL_NAME"))
+sy = SystemMessage(content="你是一个普通的上班族", additional_kwargs={"你的名字是": "小芳"})
 print(sy.additional_kwargs)
 hm1 = HumanMessage(
          content="你好,请告诉我你的名字",additional_kwargs={'你姓什么':"姓吉"})

@@ -32,10 +32,17 @@ chat_prompt_template = ChatPromptTemplate.from_messages(
     ]
 )
 msg = chat_prompt_template.format(name="张三",count=80)
-load_dotenv("../assets/openai.env")
+# load_dotenv("../assets/openai.env")
+load_dotenv("../assets/.env")
 print(os.getenv("OPENAI_API_BASE"))
 #temperature=0.8 取值0-1之间的浮点数,0最精准,1发挥空间更大
-llm = ChatOpenAI(model = os.getenv("MODEL_NAME"),temperature=0.8)
+# llm = ChatOpenAI(model = os.getenv("MODEL_NAME"),temperature=0.8)
+# llm = ChatOpenAI(model = "hunyuan-turbo",temperature=0.8,
+#                  openai_api_base="https://api.hunyuan.cloud.tencent.com/v1", # 混元 endpoint
+#                  openai_api_key="sk-tmoYxHH5v7F5AzmOz6M59HcPCjBl6Z3Qp2bknkEkdWPAI3XW",)
+llm = ChatOpenAI(model = "gpt-3.5-turbo",temperature=0.8,
+                 openai_api_base="https://api.openai-hk.com", # 混元 endpoint
+                 openai_api_key="hk-2l8xr81000053052db08020dea40797aaaf526c81a7154a1",)
 res = llm.invoke(msg)
 print(res.content)
 

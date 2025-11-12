@@ -26,25 +26,29 @@ class psOutputParser(BaseOutputParser):
         result: str = "高富帅的专属勋章是:" + text
         return result
         """
-        list1:list = text.split(",")#用逗号分隔字符串,并且组成List列表
+        list1: list = text.split(",")  # 用逗号分隔字符串,并且组成List列表
         for item in list1: print(item)
         print(list1)
 
 
 print(psOutputParser().parse("白金之星"))
-template = PromptTemplate.from_template("告诉我jojo里面的{count}个替身名字,只要替身名,不要说替身使者名字,不要多余的符号,用逗号隔开")
-msg = template.format(count=5)#相当于要2个替身名字
+template = PromptTemplate.from_template(
+    "告诉我jojo里面的{count}个替身名字,只要替身名,不要说替身使者名字,不要多余的符号,用逗号隔开")
+msg = template.format(count=5)  # 相当于要2个替身名字
 print(msg)
-load_dotenv("../assets/openai.env")
-
-
-
-
-load_dotenv("../assets/openai.env")
-llm = ChatDeepSeek(model=os.getenv("MODEL_NAME"), temperature=0.8)
+# load_dotenv("../assets/openai.env")
+load_dotenv("../assets/.env")
+llm = ChatDeepSeek(
+    model='deepseek-chat', temperature=0.8,
+    # api_key='https://api.deepseek.com',
+    # base_url=''
+)
 res = llm.invoke(msg)
-print("res=",res)
+print("res=", res)
+print('0' * 100)
+print(res.content)
+
 parse = psOutputParser().parse(res.content)
-print("parse",parse)
+print("parse", parse)
 # finalRes = psOutputParser().invoke(res)#注意,自定义的输出分析器调用invoke没有效果
 # print("finalRes=",finalRes)
