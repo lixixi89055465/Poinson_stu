@@ -17,7 +17,8 @@ from langchain_openai import ChatOpenAI
 
 # 设置环境变量，禁用 tokenizers 分词器 并行处理
 os.environ['TOKENIZERS_PARALLELISM'] = 'false'
-# TOKENIZERS_PARALLELISM 是 Hugging Face 的 tokenizers 库中的一个环境变量，用于控制分词过程中是否启用多线程并行处理。它的作用和相关背景如下：
+# TOKENIZERS_PARALLELISM 是 Hugging Face 的 tokenizers 库中的一个环境变量，
+# 用于控制分词过程中是否启用多线程并行处理。它的作用和相关背景如下：
 # 核心作用
 # 并行加速
 # 当设置为 true（默认值）时，分词器会利用多线程并行处理文本，显著提升处理速度，尤其适用于长文本或大规模数据集。
@@ -41,16 +42,25 @@ examples = [
 # 功能：结合了语义相似度和多样性，通过最大边际相关性（MMR）算法选择示例。它不仅会选择与输入语义相似的示例，还会尽量保证所选示例之间的多样性。
 s1 = MaxMarginalRelevanceExampleSelector.from_examples(
     examples,
-    HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2"),
+    # HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2"),
+    HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2",cache_folder='D://models'),
+    # HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2"),
+    # HuggingFaceEmbeddings(model_name='all-MiniLM-L6-v2', cache_folder='C:\\Users\\nanji\\.cache\\huggingface\\hub\\models--sentence-transformers--all-MiniLM-L6-v2'),
+    # HuggingFaceEmbeddings(model_name='all-MiniLM-L6-v2', cache_folder='C:\\Users\\nanji\\.cache\\huggingface\\hub'),
+    # HuggingFaceEmbeddings(model_name="C:\\Users\\nanji\\.cache\\huggingface\\hub\\models--sentence-transformers--all-MiniLM-L6-v2"),
     # OpenAIEmbeddings(),#是要使用OPenAI的API key,需要自己注册,并且产生费用
-    # 在使用 langchain 进行示例选择等任务时，HuggingFaceEmbeddings 可以作为 OpenAIEmbeddings 的替代方案，它允许你在不依赖 OpenAI API 的情况下生成文本嵌入。
+    # 在使用 langchain 进行示例选择等任务时，HuggingFaceEmbeddings 可以作为 OpenAIEmbeddings 的替代方案，
+    # 它允许你在不依赖 OpenAI API 的情况下生成文本嵌入。
     # 这个不需要注册,需要在解释器中安装包:langchain-huggingface
     # 官网地址:https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2
     # 这个在 Hugging Face 模型中心（https://huggingface.co/models）搜索适合你任务的模型。常见的模型有：
     # all-MiniLM-L12-v2：相较于 all-MiniLM-L6-v2 层数更多，性能可能更好，但推理速度可能会稍慢。
     # OpenAIEmbeddings(),#是要使用OPenAI的API key,需要自己注册,并且产生费用
-    # 在使用 langchain 进行示例选择等任务时，HuggingFaceEmbeddings 可以作为 OpenAIEmbeddings 的替代方案，它允许你在不依赖 OpenAI API 的情况下生成文本嵌入。
-    # HuggingFaceEmbeddings 是 langchain 库中的一个类，用于将文本转换为向量表示（即嵌入向量），它基于 Hugging Face 的 sentence-transformers 库来实现。借助这个类，你能够使用 Hugging Face 模型中心的众多预训练语言模型，把文本数据转换为数值向量，这些向量可以用于语义搜索、文本相似度计算等自然语言处理任务。
+    # 在使用 langchain 进行示例选择等任务时，HuggingFaceEmbeddings 可以作为 OpenAIEmbeddings 的替代方案，
+    # 它允许你在不依赖 OpenAI API 的情况下生成文本嵌入。
+    # HuggingFaceEmbeddings 是 langchain 库中的一个类，用于将文本转换为向量表示（即嵌入向量），
+    # 它基于 Hugging Face 的 sentence-transformers 库来实现。借助这个类，你能够使用 Hugging Face 模型中心的众多预训练语言模型，
+    # 把文本数据转换为数值向量，这些向量可以用于语义搜索、文本相似度计算等自然语言处理任务。
     # 在使用 langchain 进行示例选择等任务时，HuggingFaceEmbeddings 可以作为 OpenAIEmbeddings 的替代方案，它允许你在不依赖 OpenAI API 的情况下生成文本嵌入。
     FAISS,  # from langchain.vectorstores import FAISS
     # 这里需要安装faiss-cpu,在解释器中安装, 有时候需要打开vpn
@@ -70,7 +80,8 @@ fspt = FewShotPromptTemplate(
 msg = fspt.format(i="蛋清屁")
 print(msg)
 # 功能：结合了语义相似度和多样性，通过最大边际相关性（MMR）算法选择示例。它不仅会选择与输入语义相似的示例，还会尽量保证所选示例之间的多样性。
-load_dotenv("../assets/openai.env")
+# load_dotenv("../assets/openai.env")
+load_dotenv("../assets/.env")
 print(os.getenv("MODEL_NAME"))
 llm = ChatOpenAI(model=os.getenv("MODEL_NAME"), temperature=1)
 # print(msg)
