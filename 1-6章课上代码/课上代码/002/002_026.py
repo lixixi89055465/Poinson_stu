@@ -1,14 +1,20 @@
-
+# -*- coding: utf-8 -*-
+# @Time : 2025/11/18 14:02
+# @Author : nanji
+# @Site : 
+# @File : 002_026.py
+# @Software: PyCharm 
+# @Comment :
+'''
 # 核心概念
-# N - gram：这是自然语言处理里的一个基础概念，指的是文本中连续的 N 个元素。这里的元素一般是词或者字符。例如，对于文本 “自然语言处理”，当 N = 2 时，其 2 - gram（即 bigram）有 “自然”“语言”“处理”。
-# 示例选择器：在少样本学习中，往往有大量示例可供选择，而示例选择器的任务就是从这些示例里挑出和当前输入最相关的示例，以此提升模型的性能。
-
+# N - gram：这是自然语言处理里的一个基础概念，指的是文本中连续的 N 个元素。这里的元素一般是词或者字符。
+例如，对于文本 “自然语言处理”，当 N = 2 时，其 2 - gram（即 bigram）有 “自然”“语言”“处理”。
 #把少量样本里面输入的词作为参考,去例子的List去找对应的例子,选择出来
 # 解释器安装包这个是英文设计的分词器:  nltk
+'''
 import nltk
 import ssl
 import jieba
-# 中文分词器安装包:jieba
 from langchain_community.example_selectors import NGramOverlapExampleSelector
 from langchain_core.prompts import PromptTemplate, FewShotPromptTemplate
 
@@ -37,19 +43,22 @@ examples = [
 ]
 # o ma e | wa | mou | xindeiyilv
 # 你 | 语气助词 | 已经 | 死了
-processed_examples = []#添加空格以后得分词
-#下面是自己做的中文分词,每个次之间添加空格,为了让英文分词器其效果
+processed_examples = []  # 添加空格以后得分词
+# 下面是自己做的中文分词,每个次之间添加空格,为了让英文分词器其效果
 for example in examples:
-    processed_i = " ".join(jieba.cut(example["i"]))
-    processed_o = example["o"]
-    processed_examples.append({"i": processed_i, "o": processed_o})
+    processed_i = ' '.join(jieba.cut(example['i']))
+
+    processed_o = example['o']
+    processed_examples.append({'i': processed_i, 'o': processed_o})
+
 print(examples)
+print('1'*100)
 print(processed_examples)
-t1 = PromptTemplate.from_template("输入{i}输出{o}")
+t1 = PromptTemplate.from_template('输入{i} 输出 {o}')
 s1 = NGramOverlapExampleSelector(
     examples=examples,
     example_prompt=t1,
-    threshold= 0,  # 阈值 ,0是删除掉与输入词无重叠的
+    threshold=-1  # 赋值，0是删除掉与输入词无重叠的
 )
 # 算法停止的阈值。默认设置为-1.0。
 #
@@ -67,9 +76,9 @@ s1 = NGramOverlapExampleSelector(
 fspt = FewShotPromptTemplate(
     example_selector=s1,
     example_prompt=t1,
-    prefix="我输入下面的例子,你来推理吧",
-    suffix="我现在输入一个{i},你推理一下,输出什么?"
+    prefix='我输入下面的例子,你来推理吧',
+    suffix="; 我现在输入一个{i},你推理一下,输出什么?"
 )
-# msg = fspt.format(i="巧克力")
-msg = fspt.format(i="蛋白粉")
+msg = fspt.format(i='蛋白粉')
+print('0'*100)
 print(msg)
