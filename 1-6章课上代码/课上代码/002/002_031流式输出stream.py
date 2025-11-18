@@ -21,7 +21,8 @@ for item in it2:
     # AIMessageChunk
     # BaseMessageChunk
     newResult = item.__add__(
-        AIMessageChunk(content=">===阿诺说: ") + AIMessageChunk(content=" 那我问你") + AIMessageChunk(
+        AIMessageChunk(content=">===阿诺说: ") + AIMessageChunk(content=" 那我问你") +
+        AIMessageChunk(
             content=" 那我问你2==>\n"))
     # print(item.content,end="")
     print(newResult.content, end="")
