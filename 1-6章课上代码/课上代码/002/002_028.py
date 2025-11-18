@@ -40,8 +40,7 @@ examples = [
     {"i": "那我 问你", "o": "语气助词,或者喘不上气了开始思考"},
 ]
 selector = SemanticSimilarityExampleSelector.from_examples(
-    embeddings=HuggingFaceEmbeddings(model_name="all-MiniLM-L12-v2",
-                                     cache_folder='/home/nanji/workspace'),
+    embeddings=HuggingFaceEmbeddings(model_name="all-MiniLM-L12-v2"),
     examples=examples,
     vectorstore_cls=FAISS,
     k=5,
