@@ -20,6 +20,7 @@
 
 from langchain_openai import OpenAI
 from langchain.output_parsers import PydanticOutputParser
+# from langchain_core.output_parsers import PydanticOutputParser
 from langchain_core.prompts import PromptTemplate
 from pydantic import BaseModel, Field,field_validator
 import json
