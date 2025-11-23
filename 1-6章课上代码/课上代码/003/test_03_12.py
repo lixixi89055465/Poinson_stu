@@ -24,5 +24,5 @@ llm = ChatDeepSeek(model=os.getenv('MODEL_NAME'),
                    max_retries=2,
                    rate_limiter=limiter,
                    temperature=0.8)
-res = llm.invoke('你好')
+res = llm.invoke('你们怎么样啊')
 print(res.content)
