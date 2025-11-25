@@ -17,9 +17,11 @@ parser = PydanticOutputParser(pydantic_object = Zhouzhou)
 # result = parser.get_format_instructions()
 # print("result=",result)
 #get_format_instructions()这个方法会返回一个字符串,如下:
-# parser.get_format_instructions()= The output should be formatted as a JSON instance that conforms to the JSON schema below.
+# parser.get_format_instructions()= The output should be formatted as a JSON instance
+# that conforms to the JSON schema below.
 #
-# As an example, for the schema {"properties": {"foo": {"title": "Foo", "description": "a list of strings", "type": "array", "items": {"type": "string"}}}, "required": ["foo"]}
+# As an example, for the schema {"properties": {"foo": {"title": "Foo",
+# "description": "a list of strings", "type": "array", "items": {"type": "string"}}}, "required": ["foo"]}
 # the object {"foo": ["bar", "baz"]} is a well-formatted instance of the schema. The object {"properties": {"foo": ["bar", "baz"]}} is not well-formatted.
 #Here is the output schema: #下面是输出架构
 #下面是从自己写的class zhouzhou里面的2个字段里面添加说明里,给大模型看
