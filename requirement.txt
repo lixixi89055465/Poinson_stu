@@ -1,4 +1,4 @@
-langchain==0.1.7
+#langchain==0.1.7
 annotated-types==0.7.0
 anyio==4.8.0
 appnope==0.1.4
@@ -19,7 +19,7 @@ certifi==2025.1.31
 cffi==1.17.1
 charset-normalizer==3.4.1
 cleo==2.1.0
-click==8.2.0
+#click==8.2.0
 comm==0.2.2
 crashtest==0.4.1
 debugpy==1.8.12
@@ -43,7 +43,7 @@ idna==3.10
 importlib_metadata==8.7.0
 installer==0.7.0
 ipykernel==6.29.5
-ipython==8.32.0
+#ipython==8.32.0
 isoduration==20.11.0
 itsdangerous==2.2.0
 jaraco.classes==3.4.0
