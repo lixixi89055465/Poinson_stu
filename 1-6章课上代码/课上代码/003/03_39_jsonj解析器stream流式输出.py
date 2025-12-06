@@ -14,7 +14,8 @@ class ZhouZhouList(BaseModel):
     list1:list[ZhouZhou] = Field(description="ZhouZhou对象的List列表")
 parser = JsonOutputParser(pydantic_object=ZhouZhouList)
 # print("parser.get_format_instructions()=",parser.get_format_instructions())
-prompt = ChatPromptTemplate.from_template("给我2个名字要中文{format}").partial(format = parser.get_format_instructions())
+prompt = (ChatPromptTemplate.from_template("给我2个名字要中文{format}")
+          .partial(format = parser.get_format_instructions()))
 # print(prompt)
 # print(prompt.format())
 import os

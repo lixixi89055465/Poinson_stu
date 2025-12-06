@@ -14,7 +14,8 @@ class ZhouZhouList(BaseModel):
     list1:list[ZhouZhou] = Field(description="ZhouZhou对象的List列表")
 parser = PydanticOutputParser(pydantic_object=ZhouZhouList)
 # print("parser.get_format_instructions()=",parser.get_format_instructions())
-prompt = ChatPromptTemplate.from_template("给我2个名字要中文{format}").partial(format = parser.get_format_instructions())
+prompt = (ChatPromptTemplate.from_template("给我2个名字要中文{format}")
+          .partial(format = parser.get_format_instructions()))
 # print(prompt)
 # print(prompt.format())
 import os
@@ -29,7 +30,6 @@ ai_msg = chain.stream({})#返回json解构的字典
 print("ai_msg=",ai_msg)
 print("type(ai_msg)=",type(ai_msg))
 for chunk in ai_msg: #把大模型返回的每一个流的块
-
     # print("chunk=",chunk)
     # print("type(chunk)=",type(chunk))
     print("chunk=",chunk.model_dump_json())#遍历的时候每个元素是ZhouZhouList

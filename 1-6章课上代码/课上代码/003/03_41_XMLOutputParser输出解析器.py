@@ -9,12 +9,14 @@ from langchain_core.prompts import ChatPromptTemplate
 parser = XMLOutputParser()#不带标签就是让大模型自己自行返回标签
 query = "给我生成一个<西格玛男人之机智的小军的语言操作手册>"
 print(parser.get_format_instructions())
-prompt = ChatPromptTemplate.from_template("{query}{format_introduce}tags标签<>里不要有任何符号只有中文").partial(query = query,format_introduce=parser.get_format_instructions())
+prompt = (ChatPromptTemplate.from_template("{query}{format_introduce}tags标签<>里不要有任何符号只有中文")
+          .partial(query = query,format_introduce=parser.get_format_instructions()))
 # print(prompt.format())
 import os
 from langchain_deepseek import ChatDeepSeek
 from dotenv import load_dotenv
-load_dotenv("../assets/openai.env")
+# load_dotenv("../assets/openai.env")
+load_dotenv("../assets/.env")
 llm = ChatDeepSeek(
     model=os.getenv("MODEL_NAME"),
      temperature=0.8)
