@@ -39,8 +39,10 @@ def makeTuple(a,b):
 runnable1 = RunnableLambda(lambda x: makeTuple(x[0],x[1]))
 runnable1.invoke((1,1))
 
-# chain = runnable1 |  RunnableParallel({"run3":runnable2,"run4":runnable3})  #RunnableSerializable 生成顺序执行的
-chain = runnable1 |  {"run3":runnable2,"run4":runnable3} # 管道操作符|强制转换,字典转并行 放在链里面可以省略外面的RunnableParallel
+# chain = runnable1 |  RunnableParallel({"run3":runnable2,"run4":runnable3})
+# #RunnableSerializable 生成顺序执行的
+chain = runnable1 |  {"run3":runnable2,"run4":runnable3}
+# 管道操作符|强制转换,字典转并行 放在链里面可以省略外面的RunnableParallel
 result = chain.invoke((1,1))
 print(result)
 print(type(result))

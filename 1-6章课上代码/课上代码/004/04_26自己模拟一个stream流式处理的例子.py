@@ -1,5 +1,6 @@
 # 自己模拟一个流失输出的原理 使用 RunnableLamada和  yield 生成 generator
-#yield就是 return 返回一个值，并且记住这个返回的位置，下次迭代就从这个位置后(下一行)开始。
+#yield就是 return 返回一个值，并且记住这个返回的位置，
+# 下次迭代就从这个位置后(下一行)开始。
 #执行yield返回 generator生成器,生成器可以被迭代,每次 next获取下一次yield返回的值
 import time
 
@@ -21,19 +22,23 @@ def fun1(str1: str):
         print("else执行")
         raise ValueError("找到金卡或者饭")
 g1 = fun1("阿斯顿发山东第三方")
+print("0"*100)
 print(g1)
 print(type(g1))
-# result = next(g1)
-# print(result)
-# result = next(g1)
-# print(result)
-# result = next(g1)
-# print(result)
-# for chunk in g1:
-#     print(chunk)
+result = next(g1)
+print(result)
+result = next(g1)
+print(result)
+result = next(g1)
+print(result)
+print("1"*100)
+for chunk in g1:
+    print(chunk)
 # stream("我给你我的金卡,然后还去你家做饭")
 def error_fun1(str1: str):
-    # print("error_fun2执行")
+    print("error_fun2执行")
+    print("0"*100)
+    print(str1)
     # print("你在教我做事啊,在我面前不许说我兄弟坏话")
     yield "你在教我做事啊"
     yield "在我面前不许说我兄弟坏话"
@@ -47,8 +52,8 @@ chain = runable1.with_fallbacks([runable2])
 # for character in result: #invoke返回最终组合的字符串结果,str类型也能被for in 遍历
 #     print(character)
 
-result = chain.stream("我给你我的附属金卡")
-# result = chain.stream("你好")
+# result = chain.stream("我给你我的附属金卡")
+result = chain.stream("你好")
 # print(result)
 # print(type(result))
 # print("铭刻:义父追魂戟,把离手越进义父离你越远>---红字增幅+26----------)三(--> ")

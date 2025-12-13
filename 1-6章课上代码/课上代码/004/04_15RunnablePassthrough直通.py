@@ -13,7 +13,8 @@ result = chain1.invoke(3)
 print(result)
 dic = {"docs":[1,2,3, ]}
 print("type(dic)=",type(dic))
-result = RunnablePassthrough().invoke({"docs":[1,2,3] ,"question":"我传入的文档中最大的数字是什么?"})
+result = RunnablePassthrough().invoke({"docs":[1,2,3] ,
+                                       "question":"我传入的文档中最大的数字是什么?"})
 print(result) #RunnablePassthrough(),调用invoke 传入什么就 输出什么
 # list1 = result["docs"]
 # for doc in list1:
