@@ -1,1 +1,2 @@
 pip install langchain==0.3.0
+pip install sentence-transformers dotenv langchain_deepseek langchain_classic langchain_huggingface langchain_chroma langchain_community bs4

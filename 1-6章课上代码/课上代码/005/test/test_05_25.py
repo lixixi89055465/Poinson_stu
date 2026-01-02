@@ -46,7 +46,28 @@ print("result1=", result1)
 for i in range(len(result1)):
     print(str(i), " :", result1[i].page_content)
 print("铭刻:义父追魂戟,把离手越进义父离你越远>---红字增幅+26----------)三(--> ")
-print("3"*100)
-
+print("3" * 100)
 import os
+from langchain_deepseek import ChatDeepSeek
+from dotenv import load_dotenv
 
+load_dotenv("../../assets/.env")
+llm = ChatDeepSeek(
+    model=os.getenv('MODEL_NAME'),
+    temperature=0.8
+)
+
+# 创建提取器,压缩器
+extractor = LLMChainExtractor.from_llm(llm)
+print('extractor:', extractor)
+
+compression_retriever = ContextualCompressionRetriever(
+    base_component=extractor,
+    base_retriever=retriever
+)
+print('compression_retriever:', compression_retriever)
+result2 = compression_retriever.invoke('重签名是什么?')
+print("4" * 100)
+print(result2, result2)
+for i, v in enumerate(result2):
+    print(f'{i} : {v.page_content}')

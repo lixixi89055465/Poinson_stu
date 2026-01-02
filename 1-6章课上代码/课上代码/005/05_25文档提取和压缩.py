@@ -62,7 +62,8 @@ print("extractor=",extractor)
 # *AS IS* that is relevant to answer the question. If none of the context is
 # relevant return NO_OUTPUT. \n\nRemember, *DO NOT* edit the extracted parts of the context.
 # \n\n> Question: {question}\n> Context:\n>>>\n{context}\n>>>\nExtracted relevant parts:
-compression_retriever = ContextualCompressionRetriever(base_compressor=extractor,base_retriever=retriever)
+compression_retriever = ContextualCompressionRetriever(base_compressor=extractor,
+                                                       base_retriever=retriever)
 print("compression_retriever=",compression_retriever)
 result2 = compression_retriever.invoke("重签名是什么?")
 print("result2=",result2)
