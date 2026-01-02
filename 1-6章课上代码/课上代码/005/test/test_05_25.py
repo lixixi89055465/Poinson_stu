@@ -62,12 +62,12 @@ extractor = LLMChainExtractor.from_llm(llm)
 print('extractor:', extractor)
 
 compression_retriever = ContextualCompressionRetriever(
-    base_component=extractor,
+    base_compressor=extractor,
     base_retriever=retriever
 )
 print('compression_retriever:', compression_retriever)
 result2 = compression_retriever.invoke('重签名是什么?')
 print("4" * 100)
-print(result2, result2)
+print('result2:', result2)
 for i, v in enumerate(result2):
     print(f'{i} : {v.page_content}')
