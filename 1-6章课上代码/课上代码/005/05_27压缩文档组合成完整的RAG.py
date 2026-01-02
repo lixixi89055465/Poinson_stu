@@ -47,7 +47,8 @@ def rag_fun(url,tag,question):
         temperature=0.8)
     # 创建提取器,压缩器
     extractor = LLMChainExtractor.from_llm(llm)
-    compression_retriever = ContextualCompressionRetriever(base_compressor=extractor, base_retriever=retriever)
+    compression_retriever = ContextualCompressionRetriever(base_compressor=extractor,
+                                                           base_retriever=retriever)
 
     result_compression_docs = compression_retriever.invoke("重签名是什么?")
     print("压缩后返回的文档是:")
