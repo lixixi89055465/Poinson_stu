@@ -1,4 +1,5 @@
-from langchain_core.messages import HumanMessage, AIMessage, SystemMessage, BaseMessage
+from langchain_core.messages import (HumanMessage, AIMessage,
+                                     SystemMessage, BaseMessage)
 from langchain_core.prompts import MessagesPlaceholder
 
 # HumanMessage(content="我叫绯村剑心")

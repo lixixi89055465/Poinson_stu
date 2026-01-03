@@ -1,4 +1,8 @@
-from langchain_core.messages import SystemMessage, HumanMessage, AIMessage, trim_messages, BaseMessage
+from langchain_core.messages import (SystemMessage,
+                                     HumanMessage,
+                                     AIMessage,
+                                     trim_messages,
+                                     BaseMessage)
 
 msg = [
     SystemMessage("你是一个漂亮年轻的李阿姨,实际年龄比我小"),

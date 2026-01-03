@@ -18,14 +18,15 @@ def history_fun(id:str):
     return history1
 history_chain = RunnableWithMessageHistory( #可以监听 参数1的链的历史聊天记录,
     # 需要参数2里面返回的对象进行管理保存历史聊天记录
-chain1,
-lambda session_id: history1,
+chain1, lambda session_id: history1,
 # history_fun,
 #下面3行直接复制
 input_messages_key = "name",#这个占位符,是RunnableWithMessageHistory的监听的链里面的占位符
 history_messages_key = "chat_history2"
 )
-result2 = history_chain.invoke({"name":"你好"},{"configurable": {"session_id": "001"}})
+result2 = history_chain.invoke(
+    {"name":"你好"},
+    {"configurable": {"session_id": "001"}})
 print("result2=", result2)
 print("history1=", history1)
 # ({"input":"创建远程线程是什么意思?"},config={"configurable": {"session_id": "001"}})

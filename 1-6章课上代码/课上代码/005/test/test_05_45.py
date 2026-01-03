@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+# @Time : 2026/1/3 11:40
+# @Author : nanji
+# @Site : 
+# @File : test_05_45.py
+# @Software: PyCharm
+# @Comment :
 from langchain_core.messages import (SystemMessage,
                                      HumanMessage,
                                      AIMessage,
@@ -12,34 +19,29 @@ msg = [
     HumanMessage("你在教我做事啊?"),
 ]
 
-#自定义的一个token计数器
+
 def azu_token_counter(messages):
     total = 0
     for msg in messages:
-        # print("msg.content=", msg.content)
         total += len(msg.content)
-    # print("total=", total)
-    return total  # 返回总共的token数
+    return total
 
 
+# 自定义的一个token计数器
 trimmer = trim_messages(
     max_tokens=30,
     token_counter=azu_token_counter,
-    # strategy="last",  # strategy="last",#last从后截取
-    strategy="last",  # strategy="last",#last从后截取
-    # allow_partial = False,# first从前截取
-    # "first", "last"
+    strategy="last"
 )
-# result = trimmer.invoke(msg)#可以直接invoke调用
-# print("result=",result)
 import os
 from langchain_deepseek import ChatDeepSeek
 from dotenv import load_dotenv
-load_dotenv("../assets/openai.env")
+
+load_dotenv('../../assets/.env')
 llm = ChatDeepSeek(
-    model=os.getenv("MODEL_NAME"),
-     temperature=0.8)
+    model=os.environ.get("MODEL_NAME"),
+    temperature=0.8
+)
 chain = trimmer | llm | StrOutputParser()
 result = chain.invoke(msg)
-print("result=",result)
-
+print('result:', result)

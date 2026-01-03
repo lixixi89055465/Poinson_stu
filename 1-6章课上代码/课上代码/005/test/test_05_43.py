@@ -17,7 +17,8 @@ from dotenv import load_dotenv
 
 load_dotenv('../../assets/.env')
 llm = ChatDeepSeek(
-    model=os.getenv('MODEL_NAME')
+    model=os.getenv('MODEL_NAME'),
+    temperature=0.8
 )
 chain1 = ChatPromptTemplate.from_template('{name}') | llm | StrOutputParser()
 # result = chain1.invoke({'name': '你好'})
