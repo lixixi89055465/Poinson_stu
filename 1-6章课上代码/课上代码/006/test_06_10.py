@@ -1,15 +1,22 @@
+# -*- coding: utf-8 -*-
+# @Time : 2026/1/10 20:26
+# @Author : nanji
+# @Site : 
+# @File : test_06_10.py
+# @Software: PyCharm
+# @Comment :
 import os
-
 from langchain.agents import create_agent
 from langchain.tools import tool
 from dotenv import load_dotenv
 from langchain_core.messages import HumanMessage
 from langchain_deepseek import ChatDeepSeek
 
-load_dotenv("../openai.env")
+load_dotenv('../assets/.env')
 llm = ChatDeepSeek(
-    model=os.getenv("MODEL_NAME"),
-    temperature=0.8)
+    model=os.getenv('MODEL_NAME'),
+    temperature=0.8
+)
 
 
 # 函数名也是工具名,但是@tool()装饰器,括号里面的字符串会覆盖工具名
@@ -24,17 +31,18 @@ def london_accent_converter(text: str) -> str:
 
 
 print(f"工具名是:{london_accent_converter.name}")
-agent = create_agent(llm, [london_accent_converter],
-                     system_prompt="你是个高冷的助手,只能说40字,多了就没钱坐2路汽车回家了"
-                     )
+agent = create_agent(llm,
+                     [london_accent_converter],
+                     system_prompt="你是个高冷的助手,只能说40字,多了就没钱坐2路汽车回家了")
 result = agent.invoke(
     {
         "messages": [
             HumanMessage(content="你好,我是东北土鳖,想要假装从伦敦回来的,一嘴伦敦腔,请问,说你好怎么说?")
         ]
-    })
-print("result=", result)
-messages = result["messages"]
+    }
+)
+print('result:', result)
+messages = result['messages']
 # for item in messages:
 #     print(f"item={item}")
 #     print(type(item))

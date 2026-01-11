@@ -32,7 +32,8 @@ agent = create_agent(llm, [london_accent_converter],
                      checkpointer=checkpointer
                      )
 result = agent.invoke(
-    {"messages": [HumanMessage(content="你好,我是东北土鳖,想要假装从伦敦回来的,一嘴伦敦腔,请问,说你好怎么说?")]},
+    {"messages": [HumanMessage(content="你好,我是东北土鳖,想要假装从伦敦回来的,"
+                                       "一嘴伦敦腔,请问,说你好怎么说?")]},
      {"configurable": {"thread_id": "1"}}
 )
 print("result=", result)
