@@ -10,7 +10,7 @@ class State(TypedDict):
     messages: Annotated[list,add_messages]  #Annotated []是泛型,list是类型,逗号后面add_messages是框架告诉处理数据的规则是添加合并
     #例如:之前放了你好,ai 返回了 你好,那么就会合并成 列表你好,你好 ,作为完整对话记录
 #Annotated对 messages 的更新将追加到现有列表中，而不是覆盖它。
-graph_builder = StateGraph(State)#创建工作流状态,这里,所有工作流只能处理messages,因为上面的State,只有一个字段
+graph_builder = StateGraph(State)#创建工,这里,所有工作流只能处理messages,因为上面的State,只有一个字段
 #这个作用是可以后续添加节点node等
 import os
 from langchain_deepseek import ChatDeepSeek

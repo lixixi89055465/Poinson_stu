@@ -46,7 +46,8 @@ graph_builder.add_edge("fun2",END)#添加一个结束点
 
 import sqlite3
 # pip install langgraph-checkpoint-sqlite
-from langgraph.checkpoint.sqlite import SqliteSaver# 需要安装包langgraph-checkpoint-sqlite
+from langgraph.checkpoint.sqlite import SqliteSaver
+# 需要安装包langgraph-checkpoint-sqlite
 from langgraph.graph import StateGraph
 conn = sqlite3.connect("langgraph.db",check_same_thread=False)#创建链接,关闭检查相同线程,langgraph是多线程,默认sqlite是单线程
 memory = SqliteSaver(conn)#创建一个内存保存器
