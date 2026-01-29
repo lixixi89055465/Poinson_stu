@@ -112,6 +112,7 @@ def route_tools(
 graph_builder.add_conditional_edges('chat_node',
                                     route_tools,
                                     {'ducks': 'tools', 'end': END})
+graph_builder.add_edge('tools', 'chat_node')
 
 graph = graph_builder.compile()
 try:
