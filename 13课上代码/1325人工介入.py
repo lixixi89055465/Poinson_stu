@@ -4,7 +4,8 @@ from langgraph.graph import StateGraph
 
 #workflow工作流
 #StateGraph状态图
-#中断,invoke 执行的时候,遇到interrupt 会中断,一旦中断,编译好的图就停止,直到遇到Comman(resume)才恢复到中断所在的结点的开头开始执行
+#中断,invoke 执行的时候,遇到interrupt 会中断,一旦中断,编译好的图就停止,
+# 直到遇到Comman(resume)才恢复到中断所在的结点的开头开始执行
 #恢复
 from typing import TypedDict
 class State(TypedDict):
