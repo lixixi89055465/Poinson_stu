@@ -1,5 +1,9 @@
 # 安装依赖
 # pip install -U "langchain[openai]" langchain-tavily
+# pip install -U langchain-community
+# pip uninstall langchain -y
+# pip install "langchain<0.3.0"
+# pip install langchain==0.1.0
 import json
 import os
 from typing import Annotated

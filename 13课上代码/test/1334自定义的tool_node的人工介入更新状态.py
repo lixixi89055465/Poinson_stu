@@ -1,5 +1,10 @@
-# 安装依赖
-# pip install -U "langchain[openai]" langchain-tavily
+# -*- coding: utf-8 -*-
+# @Time : 2026/2/8 18:25
+# @Author : nanji
+# @Site : 
+# @File : 1334自定义的tool_node的人工介入更新状态.py.py
+# @Software: PyCharm
+# @Comment :
 import json
 import os
 from typing import Annotated, List, Dict, Any
@@ -32,23 +37,23 @@ def human_assistance(
 ) -> str:
     """请求人类审核信息"""
     # 中断流程，等待人类输入
-    print("human_assistance人类审核 tool_call_id=", tool_call_id)
+    print('human_assistance人类审核 tool_call_id=', tool_call_id)
     toolMsg_content = ""
-    final_answer = ""
+    final_answer = ''
     human_response = interrupt(
         {"question": "这个对吗?",
-         "answer": answer, }
+         "answer": answer}
     )
-    if human_response == "对":
-        toolMsg_content = f"正确{human_response}"
+    if human_response == '对':
+        toolMsg_content = f'正确{human_response}'
         final_answer = answer
     else:
-        toolMsg_content = f"人类修改后{human_response}"
+        toolMsg_content = f'人类修改后{human_response}'
     state_update = {
         "messages": [ToolMessage(content=toolMsg_content, tool_call_id=tool_call_id)],
-        "answer": final_answer  # 最终答案
+        'answer': final_answer  # 最终答案
     }
-    print("abc state_update=", state_update)
+    print('abc state_update=', state_update)
     # 工具需要返回Command对象更新状态
     return Command(update=state_update)
 
@@ -61,22 +66,23 @@ def abc(
     """请求人类审核信息"""
     # 中断流程，等待人类输入
     print("abc人类审核 tool_call_id=", tool_call_id)
-    toolMsg_content = ""
-    final_answer = ""
+    toolMsg_content = ''
+    final_answer = ''
     human_response = interrupt(
-        {"question": "这个对吗?",
-         "answer": answer, }
+        {'question': '这个对吗',
+         'answer': answer}
     )
-    if human_response == "对":
-        toolMsg_content = f"正确{human_response}"
+    if human_response == '对':
+        toolMsg_content = f'正确{human_response}'
         final_answer = answer
     else:
-        toolMsg_content = f"人类修改后{human_response}"
+        toolMsg_content = f'人类修改后{human_response}'
     state_update = {
-        "messages": [ToolMessage(content=toolMsg_content, tool_call_id=tool_call_id)],
+        "messages": [ToolMessage(content=toolMsg_content,
+                                 tool_call_id=tool_call_id)],
         "answer": final_answer  # 最终答案
     }
-    print("abc state_update=", state_update)
+    print('abc state_update=', state_update)
     # 工具需要返回Command对象更新状态
     return Command(update=state_update)
 
@@ -84,36 +90,34 @@ def abc(
 # 环境设置
 from dotenv import load_dotenv
 
-load_dotenv("openai.env")
-
+load_dotenv('../assets/.env')
 # 3. 配置工具和LLM
 import os
 from langchain_deepseek import ChatDeepSeek
 
 # 初始化LLM
 llm = ChatDeepSeek(
-    model=os.getenv("MODEL_NAME"),
+    model=os.getenv('MODEL_NAME'),
     temperature=0.8
 )
-
 # 初始化工具
 tool = TavilySearch(max_results=2)  # 搜索工具
-tools = [tool, human_assistance, abc]  # 注册工具列表
-llm_with_tools = llm.bind_tools(tools)  # 将工具绑定到LLM
+tools = [tool, human_assistance, abc]  # # 注册工具列表
+llm_with_tools = llm.bind_tools(tools)  # # 将工具绑定到LLM
 
 
 # 4. 定义聊天机器人节点
 def chatbot(state: State):
     print("chatbot=state", state)
-    result = llm.bind_tools(tools).invoke(state["messages"])
-    return {"messages": [result]}  # 返回的结果通过add_messages追加的list的结尾
+    result = llm.bind_tools(tools).invoke(state['messages'])
+    return {'messages': [result]}  # 返回的结果通过add_messages追加的list的结尾
 
 
 # 5. 构建流程图
 graph_builder = StateGraph(State)
-
 # 添加节点
-graph_builder.add_node("chatbot", chatbot)  # 聊天机器人节点
+
+graph_builder.add_node('chatbot', chatbot)  # 聊天机器人节点
 
 
 # 修复工具节点
@@ -125,48 +129,42 @@ class BasicToolNode:
 
     def __call__(self, state: State) -> Dict[str, Any]:
         print("BasicToolNode __call__ 执行")
-        messages = state["messages"]
+        messages = state['messages']
         last_message = messages[-1]
-
-        if not hasattr(last_message, "tool_calls") or not last_message.tool_calls:
-            return {"messages": []}
-
+        if (not hasattr(last_message, 'tool_calls') or not last_message.tool_calls):
+            return {'messages': []}
         tool_messages = []
         for tool_call in last_message.tool_calls:
-            tool_name = tool_call["name"]
-            tool_args = tool_call["args"]
-            tool_id = tool_call["id"]
-
-            print(f"调用工具: {tool_name}({tool_args})")
-
+            tool_name = tool_call['name']
+            tool_args = tool_call['args']
+            tool_id = tool_call['id']
+            print(f'调用工具:{tool_name} ({tool_args})')
             if tool_name in self.tools:
                 # 特殊处理human_assistance 和 abc 工具
-                if tool_name == "human_assistance":
+                if tool_name == 'human_assistance':
                     # 直接调用函数，不再使用invoke方法
                     result = human_assistance.func(
-                        answer=tool_args["answer"],  # 传递 answer
+                        answer=tool_args['answer'],  # 传递 answer
                         tool_call_id=tool_id
                     )
-                if tool_name == "abc":
+                if tool_name == 'abc':
                     # .func()是langchian框架直接调用函数，不再使用invoke方法
                     result = abc.func(
-                        answer=tool_args["answer"],  # 传递 answer
+                        answer=tool_args['answer'],  # 传递 answer
                         tool_call_id=tool_id
                     )
                 else:
                     # 其他工具正常调用
                     result = self.tools[tool_name].invoke(tool_args)
-
                 # 如果result是Command对象，需要特殊处理
                 if isinstance(result, Command):
                     # 更新状态
                     # Command.update 是一个字典，包含要更新的状态字段（例如 messages 和 answer）。
                     state_update = result.update
-                    state["answer"] = state_update["answer"]  # 把State的字段更新
+                    state['answer'] = state_update['answer']  # 把State的字段更新]
                     # 添加ToolMessage到消息列表
-                    tool_messages.append(state_update["messages"][0])
+                    tool_messages.append(state_update['messages'][0])
                 else:
-                    # 普通工具结果
                     tool_messages.append(
                         ToolMessage(
                             content=str(result),
@@ -177,43 +175,44 @@ class BasicToolNode:
             else:
                 tool_messages.append(
                     ToolMessage(
-                        content=f"未知工具: {tool_name}",
-                        name="system",
+                        content=f'为止工具:{tool_name}',
+                        name='system',
                         tool_call_id=tool_id
                     )
                 )
-
-        return {"messages": tool_messages}
+        return {'messages': tool_messages}
 
 
 tool_node = BasicToolNode(tools)
-graph_builder.add_node("tools", tool_node)  # 工具调用节点
-
+graph_builder.add_node('tools', tool_node)  # 工具调用节点
 # 添加边
 graph_builder.add_conditional_edges(
-    "chatbot",
+    'chatbot',
     tools_condition,  # 根据是否调用工具决定流向
 )
-graph_builder.add_edge("tools", "chatbot")  # 工具调用后返回聊天机器人
-graph_builder.add_edge(START, "chatbot")  # 起始点连接聊天机器人
-
+graph_builder.add_edge('tools', 'chatbot')  # 工具调用后返回聊天机器人
+graph_builder.add_edge(START, 'chatbot')  # 起始点连接聊天机器人
 # 编译图（启用内存检查点以保存状态）
 memory = InMemorySaver()
 graph = graph_builder.compile(checkpointer=memory)
-user_input = "你能查一下langgraph最新版吗?当有答案时,使用工具 bcd进行审核"  # 如果指定工具不存在,大模型也会找一个审核工具进行审核
-config = {"configurable": {"thread_id": 1}}
-result = graph.invoke({"messages": [HumanMessage(content=user_input)]},
-                      config=config)  # 注意这里让大模型调用的工具名就算没有匹配上,但是前面tools里面只有3个工具,大模型也会找到人类审核工具并且调用
+user_input = "你能查一下langgraph最新版吗?当有答案时,使用工具 bcd进行审核"
+# 如果指定工具不存在,大模型也会找一个审核工具进行审核
+config = {'configurable': {'thread_id': 1}}
+result = graph.invoke(
+    {'messages': [HumanMessage(content=user_input)]},
+    config=config
+    # 注意这里让大模型调用的工具名就算没有匹配上,但是前面tools里面只有3个工具,大模型也会找到人类审核工具并且调用
+)
 # print("result=",result)
 # for msg in result["messages"]:
 #     # print(type(msg),msg.content)
 #     msg.pretty_print()
 # 可视化图
-user_input = input("请人类大人审核:\n")
+user_input = input('请人类大人审核:\n')
 result = graph.invoke(Command(resume=user_input),
                       config=config)  # 注意这里让大模型调用的工具名就算没有匹配上,但是前面tools里面只有3个工具,大模型也会找到人类审核工具并且调用
 print("===========塞够诺塞够 最终的最终========")
-for msg in result["messages"]:
+for msg in result['messages']:
     # print(type(msg),msg.content)
     msg.pretty_print()
 try:
@@ -224,5 +223,4 @@ try:
         f.write(png_data)
         print("工作流图已保存为：人工介入更新状态.png")  # 提示保存路径
 except Exception as e:
-    # This requires some extra dependencies and is optional
-    print("e=", e)
+    print('e', e)
