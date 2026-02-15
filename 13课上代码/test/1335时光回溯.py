@@ -49,7 +49,7 @@ llm_with_tools = llm.bind_tools(tools)  # 将工具绑定到LLM
 
 # 4. 定义节点：聊天机器人节点（生成响应或调用工具）
 def chatbot(state: State):
-    return {'message': [llm_with_tools.invoke(state['messages'])]}
+    return {'messages': [llm_with_tools.invoke(state['messages'])]}
 
 
 graph_builder.add_node("chatbot", chatbot)  # 添加聊天机器人节点
@@ -74,11 +74,32 @@ config = {'configurable': {"thread_id": "1"}}  # 用thread_id区分不同对话�
 print("铭刻:义父追魂戟,把离手越进义父离你越远>---红字增幅+26----------)三(--> ")
 user_input = "如何刷脂?20字以内回答"
 result = graph.invoke({"messages": [HumanMessage(content=user_input)]}, config)
+
+user_input = "如何2小时之内刷脂的同时再增肌?20字以内回答"
+result = graph.invoke({"messages": [HumanMessage(content=user_input)]}, config)
+
+for msg in result['messages']:
+    msg.pretty_print()
+print("\n===== 时间回溯 =====")
+replay_snapshot = None  # 保存状态快照的
+slist = graph.get_state_history(config)
+for snapshot in graph.get_state_history(config):
+    print(f"消息个数{len(snapshot.values["messages"])},下一个节点是:{snapshot.next}")
+    if len(snapshot.values['messages']) == 3:
+        print('1' * 100)
+        replay_snapshot = snapshot  # 保存,消息总是2的状态快照
+print("\n===== 从回溯点恢复执行 =====")
+print("replay_snapshot.config=", replay_snapshot.config)
+user_input = "如何快速增肥变成大口袋?20字之内回答"
+result = graph.invoke(
+    {"messages": [HumanMessage(content=user_input)]},
+                      replay_snapshot.config)
+print("2" * 100)
 for msg in result['messages']:
     msg.pretty_print()
 
 try:
-    #display(Image(graph.get_graph().draw_mermaid_png()))
+    # display(Image(graph.get_graph().draw_mermaid_png()))
     # 生成图片二进制数据
     png_data = graph.get_graph().draw_mermaid_png()
     with open("1.png", "wb") as f:
