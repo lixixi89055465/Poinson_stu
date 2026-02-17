@@ -56,7 +56,8 @@ stateGraph.add_edge("first_story", "second_story")
 
 stateGraph.add_conditional_edges(
     #判断,包含屎尿,就进入no_shit函数重新请求大模型,如果不包含就执行第三个story的节点
-    "second_story",no_shit_condition, {"have_shit": "no_shit_story", "no_shit": "third_story"}
+    "second_story",no_shit_condition,
+    {"have_shit": "no_shit_story", "no_shit": "third_story"}
 )
 stateGraph.add_edge("no_shit_story", "third_story")
 stateGraph.add_edge("third_story", END)
